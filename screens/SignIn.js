@@ -7,7 +7,7 @@ import { ScreenContainer } from 'react-native-screens';
 //    "email": "usuario@teste.com",
 //    "password": "usuario_test_@@"
 //}
-//sadas
+//sadasasdas
 export function SignIn() {
 
   const [email, setEmail] = React.useState('');
