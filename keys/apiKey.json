@@ -1,0 +1,30 @@
+{
+    "name": "Login",
+    "description": "",
+    "renders": [
+        "application/json",
+        "text/html"
+    ],
+    "parses": [
+        "application/json",
+        "application/x-www-form-urlencoded",
+        "multipart/form-data"
+    ],
+    "actions": {
+        "POST": {
+            "email": {
+                "type": "string",
+                "required": true,
+                "read_only": false,
+                "label": "Email"
+            },
+            "password": {
+                "type": "string",
+                "required": true,
+                "read_only": false,
+                "label": "Password"
+            }
+        }
+        
+    }
+}
