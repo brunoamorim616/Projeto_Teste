@@ -1,40 +1,73 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { ScreenContainer } from 'react-native-screens';
 
-import * as Auth from '../keys/apiKey.json';
 //{
 //    "email": "usuario@teste.com",
 //    "password": "usuario_test_@@"
 //}
+//sadas
+export function SignIn() {
 
-export function SignIn ({ navigation }) {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
-  const [state, setState] = React.useState({
-    userEm: '',
-    userPs: '',
-  });
+  /**url da API */
+  var url = "https://delivery.leaderaplicativos.com.br/api/api-token-auth/"
 
+  /** guarda os dados do usuario no localstorage do aparelho*/
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('login', value)
+    } catch (e) {
+      // saving error
+    }
+  }
+
+  let user = {
+    email: email,
+    password: password,
+    token: '',
+  }
+
+  /**captura o token providenciado pela API */
+  async function apiHandler() {
+    let response = await fetch
+      (url, {
+        method: 'POST',
+        body: JSON.stringify(user),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json());
+
+    user = {
+      token: response,
+    }
+
+    console.log(user);
+  }
 
   return (
     <ScreenContainer style={styles.Container}>
 
       <TextInput style={styles.FormInput}
         placeholder="E-mail"
-        value="userEm"
+        onChangeText={(email) => setEmail(email)}
       />
 
       <TextInput style={styles.FormInput}
         placeholder="Senha"
         secureTextEntry={true}
-        value="userPs"
+        onChangeText={(password) => setPassword(password)}
       />
 
       <TouchableOpacity style={styles.FormButton}
-        title="" onPress={() => setState(userEm,userPs)} >
+        title="Entrar" onPress={(apiHandler)}>
         <Text style={styles.FormButtonText} >
           Entrar
-                            </Text>
+        </Text>
       </TouchableOpacity>
 
     </ScreenContainer>
