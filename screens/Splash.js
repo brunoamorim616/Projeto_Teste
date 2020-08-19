@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScreenContainer } from 'react-native-screens';
-import * as SplashScreen from 'expo-splash-screen';
+
 
 export function Splash() {
 
