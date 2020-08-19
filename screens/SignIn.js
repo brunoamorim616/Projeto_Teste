@@ -7,6 +7,7 @@ import { ScreenContainer } from 'react-native-screens';
 //    "email": "usuario@teste.com",
 //    "password": "usuario_test_@@"
 //}
+//sadasasdas
 export function SignIn() {
 
   const [email, setEmail] = React.useState('');
@@ -15,37 +16,38 @@ export function SignIn() {
   /**url da API */
   var url = "https://delivery.leaderaplicativos.com.br/api/api-token-auth/"
 
-  /** guarda os dados do usuario no localstorage do aparelho*/
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem('login', value)
-    } catch (e) {
-      // saving error
-    }
-  }
-
-  let user = {
-    email: email,
-    password: password,
-    token: '',
-  }
 
   /**captura o token providenciado pela API */
-  async function apiHandler() {
-    let response = await fetch
-      (url, {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.json());
+  async function apiLogin() {
 
-    user = {
-      token: response,
+    let user = {
+      email: email,
+      password: password
     }
 
-    console.log(user);
+    try {
+      let response = await fetch
+        (url, {
+          method: 'POST',
+          body: JSON.stringify(user),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json());
+
+      storageToken(response.token);
+
+    } catch (e) {
+      alert(e);
+    }
+    
+  }
+  /**captura o token providenciado pela API e salva no local storage */
+  async function storageToken(token) {
+
+    if (token != undefined)
+      await AsyncStorage.setItem('token', JSON.stringify(token));
+
   }
 
   return (
@@ -63,7 +65,7 @@ export function SignIn() {
       />
 
       <TouchableOpacity style={styles.FormButton}
-        title="Entrar" onPress={(apiHandler)}>
+        title="Entrar" onPress={(apiLogin)}>
         <Text style={styles.FormButtonText} >
           Entrar
         </Text>
