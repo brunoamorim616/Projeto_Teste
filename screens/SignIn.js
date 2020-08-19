@@ -7,7 +7,7 @@ import { ScreenContainer } from 'react-native-screens';
 //    "email": "usuario@teste.com",
 //    "password": "usuario_test_@@"
 //}
-//sadasasdas
+
 export function SignIn() {
 
   const [email, setEmail] = React.useState('');
@@ -16,9 +16,8 @@ export function SignIn() {
   /**url da API */
   var url = "https://delivery.leaderaplicativos.com.br/api/api-token-auth/"
 
-
   /**captura o token providenciado pela API */
-  async function apiLogin() {
+  async function login() {
 
     let user = {
       email: email,
@@ -50,6 +49,13 @@ export function SignIn() {
 
   }
 
+  /**captura o token no local storage e o exclui do mesmo */
+  async function logoutUser() {
+
+    await AsyncStorage.removeItem('token');
+
+  }
+
   return (
     <ScreenContainer style={styles.Container}>
 
@@ -65,7 +71,7 @@ export function SignIn() {
       />
 
       <TouchableOpacity style={styles.FormButton}
-        title="Entrar" onPress={(apiLogin)}>
+        title="Entrar" onPress={(login)}>
         <Text style={styles.FormButtonText} >
           Entrar
         </Text>
