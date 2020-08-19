@@ -3,18 +3,20 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-nativ
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScreenContainer } from 'react-native-screens';
 
+import { AuthContext } from '../context';
+
 //{
 //    "email": "usuario@teste.com",
 //    "password": "usuario_test_@@"
 //}
 
-export function SignIn() {
+export const SignIn = () => {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   /**url da API */
-  var url = "https://delivery.leaderaplicativos.com.br/api/api-token-auth/"
+  const url = "https://delivery.leaderaplicativos.com.br/"
 
   /**captura o token providenciado pela API */
   async function login() {
@@ -26,7 +28,7 @@ export function SignIn() {
 
     try {
       let response = await fetch
-        (url, {
+        (url + "api/api-token-auth/", {
           method: 'POST',
           body: JSON.stringify(user),
           headers: {
@@ -34,28 +36,29 @@ export function SignIn() {
           }
         }).then(res => res.json());
 
-      storageToken(response.token);
-
+      await storageToken(response.token);
+      
     } catch (e) {
+
       alert(e);
+
     }
-    
+
   }
+
   /**captura o token providenciado pela API e salva no local storage */
   async function storageToken(token) {
 
-    if (token != undefined)
-      await AsyncStorage.setItem('token', JSON.stringify(token));
+        await AsyncStorage.setItem('token', JSON.stringify(token));
 
   }
 
-  /**captura o token no local storage e o exclui do mesmo */
-  async function logoutUser() {
-
-    await AsyncStorage.removeItem('token');
-
+  async function entrar (){
+    await login();
+    signIn();
   }
 
+  const { signIn } = React.useContext(AuthContext);
   return (
     <ScreenContainer style={styles.Container}>
 
@@ -71,7 +74,7 @@ export function SignIn() {
       />
 
       <TouchableOpacity style={styles.FormButton}
-        title="Entrar" onPress={(login)}>
+        title="Entrar" onPress={() => entrar()}>
         <Text style={styles.FormButtonText} >
           Entrar
         </Text>

@@ -1,16 +1,33 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { ScreenContainer } from 'react-native-screens';
 
-export function Home() {
+import { AuthContext } from '../context';
+
+export const Home = () =>  {
+
+    const { signOut } = React.useContext(AuthContext);
+
 
     return (
-        <ScreenContainer style={styles.Container}>
-            <Text> Home </Text>
-        </ScreenContainer>
+      <ScreenContainer style={styles.Container}>
+  
+        <TouchableOpacity style={styles.FormButton}
+          title="Sair" onPress={() => signOut()}>
+          <Text style={styles.FormButtonText} >
+            Sair
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.FormButton}
+          title="user" >
+          <Text style={styles.FormButtonText} >
+            user
+          </Text>
+        </TouchableOpacity>
+  
+      </ScreenContainer>
     );
-};
+  };
 
 const styles = StyleSheet.create({
     Container: {
