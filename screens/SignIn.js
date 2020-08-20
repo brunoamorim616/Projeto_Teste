@@ -55,7 +55,7 @@ export const SignIn = () => {
 
   async function entrar (){
     await login();
-    signIn();
+    await signIn();
   }
 
   const { signIn } = React.useContext(AuthContext);
