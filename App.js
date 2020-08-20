@@ -7,6 +7,7 @@ import { Home } from './screens/Home';
 import { SignIn } from './screens/SignIn';
 import { AuthContext } from './context';
 
+/**Rotas */
 const RootStack = createStackNavigator();
 const RootStackScreen = ({ userToken }) => (
   <RootStack.Navigator headerMode="none">
@@ -30,26 +31,29 @@ const RootStackScreen = ({ userToken }) => (
   </RootStack.Navigator>
 );
 
-
 export default () => {
 
   const [isLoading, setIsLoading] = React.useState(true);
   var [userToken, setUserToken] = React.useState(null);
 
+  /**Este hook é acionado toda vez que o progrmaa é iniciado
+   * e seta a variável userToken à partir do valor/existência
+   * do token no local storage.
+   */
   React.useEffect(() => {
     loadData();
-    console.log('Token Atualizou');
-    alert(userToken);
   }, []);
 
+  /**Carrega o token amazenado no local storage. */
   async function loadData(){
     try {
 
       let userToken = await AsyncStorage.getItem('token');
-      alert(userToken);
       await setUserToken(userToken);
-      
 
+      console.log(userToken);
+      /**alert('Token Atualizou: ', userToken);*/
+      
       } catch (e) {
 
       alert(e)
@@ -58,13 +62,15 @@ export default () => {
     
   }
   
-  /**Remove o token do local storage */
+  /**Remove o token do local storage. */
   async function signOutToken() {
     try {
 
       await AsyncStorage.removeItem('token');
       await setUserToken(null);
-      alert(userToken);
+
+      console.log(userToken);
+      /**alert('Token Atualizou: ', userToken);*/
 
     } catch (e) {
 
@@ -83,20 +89,14 @@ export default () => {
 
         loadData();
         setIsLoading(false);
-        /*if (userToken != null) {
-          console.log('Logou com o TOKEN: ', signInToken());
-        } else {
-          console.log('Nao Logou: ', signInToken());
-        }
-        */
 
       },
+
       /**Realiza o logout do usuario */
       signOut: () => {
 
         signOutToken();
         setIsLoading(false);
-        /*console.log('Deslogou logo TOKEN: ', signOutToken());*/
 
       }
     }

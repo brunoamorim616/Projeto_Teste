@@ -40,7 +40,7 @@ export const SignIn = () => {
       
     } catch (e) {
 
-      alert(e);
+      alert("E-mail e Senha obrigatórios!");
 
     }
 
