@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScreenContainer } from 'react-native-screens';
 
 import { AuthContext } from '../context';
+import icon from '../assets/icon.png';
 
 //{
 //    "email": "usuario@teste.com",
@@ -62,6 +63,8 @@ export const SignIn = () => {
   return (
     <ScreenContainer style={styles.Container}>
 
+      <Image source={icon} style={styles.IconLogo}/>
+
       <TextInput style={styles.FormInput}
         placeholder="E-mail"
         onChangeText={(email) => setEmail(email)}
@@ -109,8 +112,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginVertical: 10,
     paddingVertical: 12,
-    borderColor: 'white',
-    borderWidth: 1,
+    borderColor: '#57cd7b',
+    borderWidth: 2,
   },
   FormButtonText: {
     fontSize: 20,
@@ -118,5 +121,10 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
 
+  },
+  IconLogo: {
+    width: 100,
+    height: 100,
+    marginBottom: 45,
   }
 })

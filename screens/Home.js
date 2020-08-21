@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         marginVertical: 10,
         paddingVertical: 12,
-        borderColor: 'white',
-        borderWidth: 1,
+        borderColor: '#57cd7b',
+        borderWidth: 2,
     },
     FormButtonText: {
         fontSize: 20,
