@@ -1,70 +1,35 @@
 import * as React from 'react';
-import { Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { Image, Text, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { ScreenContainer } from 'react-native-screens';
+import { login } from '../apiServices/loginService';
 
 import { AuthContext } from '../context';
 import icon from '../assets/icon.png';
 
-//{
-//    "email": "usuario@teste.com",
-//    "password": "usuario_test_@@"
-//}
 
-export const SignIn = () => {
+export const LoginScreen = () => {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-
-  /**url da API */
-  const url = "https://delivery.leaderaplicativos.com.br/"
-
-  /**captura o token providenciado pela API */
-  async function login() {
-
-    let user = {
-      email: email,
-      password: password
-    }
-
-    try {
-      let response = await fetch
-        (url + "api/api-token-auth/", {
-          method: 'POST',
-          body: JSON.stringify(user),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }).then(res => res.json());
-
-      await storageToken(response.token);
-      
-    } catch (e) {
-
-      alert("E-mail e Senha obrigatórios!");
-
-    }
-
-  }
-
-  /**captura o token providenciado pela API e salva no local storage */
-  async function storageToken(token) {
-
-        await AsyncStorage.setItem('token', JSON.stringify(token));
-
-  }
+  const { signIn } = React.useContext(AuthContext); 
 
   async function entrar (){
-    await login();
+    if (email == '' || password == '') {
+      alert("Preencha TODOS os campos!");
+    }else {
+    await login(email, password);
     await signIn();
+    }
   }
 
-  const { signIn } = React.useContext(AuthContext);
+   
+
   return (
     <ScreenContainer style={styles.Container}>
+      
 
       <Image source={icon} style={styles.IconLogo}/>
-
+      <View style={styles.Form}>
       <TextInput style={styles.FormInput}
         placeholder="E-mail"
         onChangeText={(email) => setEmail(email)}
@@ -82,7 +47,7 @@ export const SignIn = () => {
           Entrar
         </Text>
       </TouchableOpacity>
-
+      </View>
     </ScreenContainer>
   );
 };
@@ -105,7 +70,7 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     borderColor: 'white',
     borderWidth: 1,
-    color: 'white'
+    color: 'white',
   },
   FormButton: {
     width: 300,
@@ -120,11 +85,14 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'white',
     textAlign: 'center',
-
+    
   },
   IconLogo: {
     width: 100,
     height: 100,
     marginBottom: 45,
-  }
+  },
+  Form: {
+    height: 325,
+  } 
 })

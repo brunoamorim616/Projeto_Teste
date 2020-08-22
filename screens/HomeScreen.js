@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { ScreenContainer } from 'react-native-screens';
 
 import { AuthContext } from '../context';
 
-export const Home = () =>  {
+export const HomeScreen = () =>  {
 
     const { signOut } = React.useContext(AuthContext);
 

@@ -3,53 +3,61 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { Home } from './screens/Home';
-import { SignIn } from './screens/SignIn';
+import { HomeScreen } from './screens/HomeScreen';
+import { LoginScreen } from './screens/LoginScreen';
 import { AuthContext } from './context';
 
 /**Rotas */
 const RootStack = createStackNavigator();
+
 const RootStackScreen = ({ userToken }) => (
-  <RootStack.Navigator headerMode="none">
+
+  <RootStack.Navigator headerMode="screen" >
+
     {userToken != null ? (
       <RootStack.Screen
         name="Home"
-        component={Home}
+        component={HomeScreen}
         options={{
-          animationEnabled: false
+          animationEnabled: true,
+          headerStyle: {
+            backgroundColor: '#57cd7b',
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            textAlign: 'center',
+          },
         }}
       />
     ) : (
         <RootStack.Screen
-          name="SignIn"
-          component={SignIn}
+          name="Login"
+          component={LoginScreen}
           options={{
-            animationEnabled: false
+            animationEnabled: true,
+            headerStyle: {
+              backgroundColor: 'black',
+            }
           }}
         />
       )}
+
   </RootStack.Navigator>
+
 );
 
 export default () => {
 
-  const [isLoading, setIsLoading] = React.useState(true);
   var [userToken, setUserToken] = React.useState(null);
-
-  /**Este hook é acionado toda vez que o progrmaa é iniciado
-   * e seta a variável userToken à partir do valor/existência
-   * do token no local storage.
-   */
-  React.useEffect(() => {
-    loadData();
-  }, []);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   /**Carrega o token amazenado no local storage. */
   async function loadData(){
     try {
 
       let userToken = await AsyncStorage.getItem('token');
-      await setUserToken(userToken);
+      setUserToken(userToken);
 
       console.log(userToken);
       /**alert('Token Atualizou: ', userToken);*/
@@ -67,18 +75,24 @@ export default () => {
     try {
 
       await AsyncStorage.removeItem('token');
-      await setUserToken(null);
+      setUserToken(null);
 
       console.log(userToken);
-      /**alert('Token Atualizou: ', userToken);*/
 
     } catch (e) {
 
       alert(e);
 
     }
+}
 
-  }
+  /**Este hook é acionado toda vez que o programa é iniciado
+   * e seta a variável userToken à partir do valor/existência
+   * do token no local storage.
+   */
+  React.useEffect(() => {
+    loadData();
+  }, []);
   
   const authContext = React.useMemo(() => {
 
@@ -110,4 +124,5 @@ export default () => {
     </AuthContext.Provider>
   );
 }
+
 
