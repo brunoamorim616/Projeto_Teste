@@ -2,43 +2,31 @@ import * as React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-
-import { HomeScreen } from './screens/HomeScreen';
 import { LoginScreen } from './screens/LoginScreen';
 import { AuthContext } from './context';
+import { HomeScreen } from './screens/HomeScreen';
 
 /**Rotas */
 const RootStack = createStackNavigator();
 
 const RootStackScreen = ({ userToken }) => (
 
-  <RootStack.Navigator headerMode="screen" >
+  <RootStack.Navigator headerMode="none" >
 
-    {userToken != null ? (
+    {userToken ? (
       <RootStack.Screen
-        name="Home"
         component={HomeScreen}
+        name="App"
         options={{
           animationEnabled: true,
-          headerStyle: {
-            backgroundColor: '#57cd7b',
-          },
-          headerTintColor: 'white',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            textAlign: 'center',
-          },
         }}
       />
     ) : (
         <RootStack.Screen
-          name="Login"
           component={LoginScreen}
+          name="Login"
           options={{
             animationEnabled: true,
-            headerStyle: {
-              backgroundColor: 'black',
-            }
           }}
         />
       )}
@@ -49,27 +37,25 @@ const RootStackScreen = ({ userToken }) => (
 
 export default () => {
 
-  var [userToken, setUserToken] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(true);
+  let [userToken, setUserToken] = React.useState(null);
 
   /**Carrega o token amazenado no local storage. */
-  async function loadData(){
+  async function loadData() {
     try {
 
       let userToken = await AsyncStorage.getItem('token');
-      setUserToken(userToken);
 
-      console.log(userToken);
-      /**alert('Token Atualizou: ', userToken);*/
-      
-      } catch (e) {
+      setUserToken(userToken);
+      //console.log(userToken);
+
+    } catch (e) {
 
       alert(e)
 
     }
-    
+
   }
-  
+
   /**Remove o token do local storage. */
   async function signOutToken() {
     try {
@@ -77,14 +63,13 @@ export default () => {
       await AsyncStorage.removeItem('token');
       setUserToken(null);
 
-      console.log(userToken);
-
     } catch (e) {
 
       alert(e);
 
     }
-}
+  }
+  
 
   /**Este hook é acionado toda vez que o programa é iniciado
    * e seta a variável userToken à partir do valor/existência
@@ -93,7 +78,7 @@ export default () => {
   React.useEffect(() => {
     loadData();
   }, []);
-  
+
   const authContext = React.useMemo(() => {
 
     return {
@@ -102,7 +87,6 @@ export default () => {
       signIn: () => {
 
         loadData();
-        setIsLoading(false);
 
       },
 
@@ -110,7 +94,6 @@ export default () => {
       signOut: () => {
 
         signOutToken();
-        setIsLoading(false);
 
       }
     }

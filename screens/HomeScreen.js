@@ -1,67 +1,71 @@
 import * as React from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import { ScreenContainer } from 'react-native-screens';
+import icon from '../assets/icon.png';
 
 import { AuthContext } from '../context';
 
-export const HomeScreen = () =>  {
+export const HomeScreen = () => {
 
-    const { signOut } = React.useContext(AuthContext);
+  const { signOut } = React.useContext(AuthContext);
 
 
-    return (
-      <ScreenContainer style={styles.Container}>
-  
-        <TouchableOpacity style={styles.FormButton}
+  return (
+    <ScreenContainer style={styles.Container}>
+
+      <View>
+        <Image source={icon} style={styles.IconLogo} />
+        
+      </View>
+
+      <View >
+        <Text style={styles.HomeText}>
+          Você pode sair clicando no botão abaixo.
+        </Text>
+        <TouchableOpacity style={styles.HomeButton}
           title="Sair" onPress={() => signOut()}>
-          <Text style={styles.FormButtonText} >
+          <Text style={styles.HomeButtonText} >
             Sair
-          </Text>
+        </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.FormButton}
-          title="user" >
-          <Text style={styles.FormButtonText} >
-            user
-          </Text>
-        </TouchableOpacity>
-  
-      </ScreenContainer>
-    );
-  };
+      </View>
+
+    </ScreenContainer>
+  );
+};
 
 const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        backgroundColor: 'black',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-    },
-    FormInput: {
-        width: 295,
-        backgroundColor: 'black',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: 'black',
-        marginVertical: 12,
-        borderColor: 'white',
-        borderWidth: 1,
-        color: 'white'
-    },
-    FormButton: {
-        width: 300,
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 12,
-        borderColor: '#57cd7b',
-        borderWidth: 2,
-    },
-    FormButtonText: {
-        fontSize: 20,
-        fontWeight: '500',
-        color: 'white',
-        textAlign: 'center',
-
-    }
+  Container: {
+    flex: 1,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  HomeButton: {
+    width: 295,
+    borderRadius: 25,
+    marginVertical: 10,
+    paddingVertical: 12,
+    borderColor: '#57cd7b',
+    borderWidth: 2,
+    backgroundColor: '#57cd7b',
+    marginTop: 20,
+  },
+  HomeButtonText: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: 'white',
+    textAlign: 'center',
+  },
+  HomeText: {
+    color: 'white',
+    marginTop: 200,
+    textAlign: "center"
+  },
+  IconLogo: {
+    width: 200,
+    height: 200,
+    marginBottom: 45,
+  },
 })

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Image, Text, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { ScreenContainer } from 'react-native-screens';
-import { login } from '../apiServices/loginService';
+import { loginHandler } from '../apiServices/tokenService';
 
 import { AuthContext } from '../context';
 import icon from '../assets/icon.png';
@@ -11,42 +11,47 @@ export const LoginScreen = () => {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const { signIn } = React.useContext(AuthContext); 
+  const { signIn } = React.useContext(AuthContext);
 
-  async function entrar (){
+  async function entrar() {
+
     if (email == '' || password == '') {
+
       alert("Preencha TODOS os campos!");
-    }else {
-    await login(email, password);
-    await signIn();
+
+    } else {
+
+      await loginHandler(email, password);
+      await signIn();
+
     }
   }
 
-   
+
 
   return (
     <ScreenContainer style={styles.Container}>
+
+      <Image source={icon} style={styles.IconLogo} />
       
-
-      <Image source={icon} style={styles.IconLogo}/>
       <View style={styles.Form}>
-      <TextInput style={styles.FormInput}
-        placeholder="E-mail"
-        onChangeText={(email) => setEmail(email)}
-      />
+        <TextInput style={styles.FormInput}
+          placeholder="E-mail"
+          onChangeText={(email) => setEmail(email)}
+        />
 
-      <TextInput style={styles.FormInput}
-        placeholder="Senha"
-        secureTextEntry={true}
-        onChangeText={(password) => setPassword(password)}
-      />
+        <TextInput style={styles.FormInput}
+          placeholder="Senha"
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+        />
 
-      <TouchableOpacity style={styles.FormButton}
-        title="Entrar" onPress={() => entrar()}>
-        <Text style={styles.FormButtonText} >
-          Entrar
+        <TouchableOpacity style={styles.FormButton}
+          title="Entrar" onPress={() => entrar()}>
+          <Text style={styles.FormButtonText} >
+            Entrar
         </Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
       </View>
     </ScreenContainer>
   );
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
     color: 'black',
     marginVertical: 12,
     borderColor: 'white',
-    borderWidth: 1,
+    borderWidth: 2,
     color: 'white',
   },
   FormButton: {
@@ -79,20 +84,21 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderColor: '#57cd7b',
     borderWidth: 2,
+    backgroundColor: '#57cd7b'
   },
   FormButtonText: {
     fontSize: 20,
     fontWeight: '500',
     color: 'white',
     textAlign: 'center',
-    
   },
   IconLogo: {
     width: 100,
     height: 100,
     marginBottom: 45,
+    alignContent: "center"
   },
   Form: {
-    height: 325,
-  } 
+    height: 200,
+  }
 })
