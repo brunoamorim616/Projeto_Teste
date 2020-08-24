@@ -24,9 +24,6 @@ export async function loginHandler(email, password) {
 
     await storageToken(response.token);
 
-    /**if (token != undefined || token != null)
-      tokenInfo(token);*/
-
   } catch (e) {
 
     alert("E-mail ou Senha incorretos.");
