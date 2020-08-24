@@ -9,17 +9,18 @@ export const HomeScreen = () => {
 
   const { signOut } = React.useContext(AuthContext);
 
-
   return (
     <ScreenContainer style={styles.Container}>
 
-      <View>
-        <Image source={icon} style={styles.IconLogo} />
-        
+      <View style={styles.View}>
+        <Image source={icon} style={styles.IconLogo}/>
+        <Text style={styles.HomeText}>
+          Tela de Usuário
+        </Text>
       </View>
 
       <View >
-        <Text style={styles.HomeText}>
+        <Text style={styles.HomeText2}>
           Você pode sair clicando no botão abaixo.
         </Text>
         <TouchableOpacity style={styles.HomeButton}
@@ -60,12 +61,24 @@ const styles = StyleSheet.create({
   },
   HomeText: {
     color: 'white',
-    marginTop: 200,
+    marginTop: 10,
+    marginBottom: 10,
+    textAlign: "center",
+    fontSize: 17
+  },
+  HomeText2: {
+    color: 'white',
+    marginTop: 250,
     textAlign: "center"
+  },
+  View: {
+    marginTop: 100,
+    marginBottom: -100,
+    textAlign: "center",
   },
   IconLogo: {
     width: 200,
     height: 200,
-    marginBottom: 45,
+    marginBottom: 10,
   },
 })

@@ -1,10 +1,17 @@
 import * as React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+
 import { LoginScreen } from './screens/LoginScreen';
 import { AuthContext } from './context';
 import { HomeScreen } from './screens/HomeScreen';
+import { ProfileScreen } from './screens/ProfileScreen';
+import { OptionsScreen } from './screens/OptionsScreen';
+import { MessagesScreen } from './screens/MessagesScreen';
+
 
 /**Rotas */
 const RootStack = createStackNavigator();
@@ -15,7 +22,7 @@ const RootStackScreen = ({ userToken }) => (
 
     {userToken ? (
       <RootStack.Screen
-        component={HomeScreen}
+        component={Tabs}
         name="App"
         options={{
           animationEnabled: true,
@@ -34,6 +41,48 @@ const RootStackScreen = ({ userToken }) => (
   </RootStack.Navigator>
 
 );
+
+const Tab = createBottomTabNavigator();
+
+const Tabs = () => (
+  <Tab.Navigator tabBarOptions={{
+    activeTintColor: 'white',
+    inactiveTintColor: 'darkgrey',
+    style: {
+      backgroundColor: 'dimgrey',
+    }
+    }}>
+    <Tab.Screen name="Principal" component={HomeScreen} 
+    options={{
+          animationEnabled: true,
+          tabBarLabel: 'Principal',
+       tabBarIcon: ({ color, size }) => (
+         <Ionicons name="md-menu" color={color} size={size} />
+       ),
+        }}/>
+    <Tab.Screen name="Mensagens" component={MessagesScreen}  
+    options={{
+          animationEnabled: true,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="md-people" color={color} size={size} />
+          ),
+        }}/>
+    <Tab.Screen name="Perfil" component={ProfileScreen}  
+    options={{
+          animationEnabled: true,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="md-person" color={color} size={size} />
+          ),
+        }}/>
+    <Tab.Screen name="Opções" component={OptionsScreen}  
+    options={{
+          animationEnabled: true,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="md-options" color={color} size={size} />
+          ),
+        }}/>
+  </Tab.Navigator>
+  );
 
 export default () => {
 
